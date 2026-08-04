@@ -89,6 +89,73 @@
           <button type="button" data-sample="ii********10">ii********10</button>
         </div>
 
+        <div id="scanVisual" class="scan-visual scan-idle">
+          <svg class="scan-illustration" viewBox="0 0 680 250" role="img" aria-label="Мультяшное сканирование штрихкода на посылке">
+            <defs>
+              <linearGradient id="box-front" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#d9a964"/>
+                <stop offset="1" stop-color="#bd8140"/>
+              </linearGradient>
+              <linearGradient id="scanner-body" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#3d4856"/>
+                <stop offset="1" stop-color="#141b24"/>
+              </linearGradient>
+              <filter id="scan-shadow" x="-40%" y="-40%" width="180%" height="200%">
+                <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#15243a" flood-opacity="0.24"/>
+              </filter>
+            </defs>
+
+            <ellipse cx="410" cy="222" rx="205" ry="16" fill="#294465" opacity="0.12"/>
+
+            <g class="parcel" filter="url(#scan-shadow)">
+              <path d="M304 51L383 23H572L622 55L547 84H354Z" fill="#ebbd79"/>
+              <path d="M304 51L354 84V211L304 179Z" fill="#ad7138"/>
+              <path d="M354 84L547 84V211H354Z" fill="url(#box-front)"/>
+              <path d="M547 84L622 55V180L547 211Z" fill="#c98e4c"/>
+              <path d="M444 25L492 25L483 84H432Z" fill="#e8c390" opacity="0.82"/>
+              <path d="M304 51L354 84H547L622 55" fill="none" stroke="#925b2d" stroke-width="3" opacity="0.55"/>
+
+              <g class="parcel-label">
+                <rect x="378" y="105" width="147" height="86" rx="7" fill="#fff" stroke="#d9e1e7" stroke-width="2"/>
+                <text x="389" y="122" class="parcel-label-caption">Демо-отправление</text>
+                <g class="barcode" fill="#17202b">
+                  <rect x="390" y="133" width="3" height="27"/><rect x="396" y="133" width="2" height="27"/>
+                  <rect x="401" y="133" width="5" height="27"/><rect x="410" y="133" width="2" height="27"/>
+                  <rect x="416" y="133" width="4" height="27"/><rect x="424" y="133" width="2" height="27"/>
+                  <rect x="430" y="133" width="6" height="27"/><rect x="440" y="133" width="3" height="27"/>
+                  <rect x="447" y="133" width="2" height="27"/><rect x="452" y="133" width="5" height="27"/>
+                  <rect x="461" y="133" width="3" height="27"/><rect x="468" y="133" width="6" height="27"/>
+                  <rect x="478" y="133" width="2" height="27"/><rect x="484" y="133" width="4" height="27"/>
+                  <rect x="492" y="133" width="2" height="27"/><rect x="498" y="133" width="5" height="27"/>
+                  <rect x="507" y="133" width="3" height="27"/>
+                </g>
+                <text id="scanOrderCode" x="451" y="178" text-anchor="middle" class="parcel-order-code">ii********1</text>
+              </g>
+            </g>
+
+            <g class="scanner" filter="url(#scan-shadow)">
+              <path d="M78 107Q78 82 102 78L194 63Q222 59 235 78L249 100Q256 112 245 121L215 144Q205 151 192 147L112 123Q78 118 78 107Z" fill="url(#scanner-body)"/>
+              <path d="M122 122L177 139L152 217Q148 229 136 226L105 216Q95 213 99 201Z" fill="#202a36"/>
+              <path d="M116 130L158 143L148 174L107 161Z" fill="#536273"/>
+              <rect x="196" y="76" width="34" height="45" rx="12" fill="#10171f"/>
+              <rect x="202" y="83" width="22" height="31" rx="8" fill="#ff5a62" class="scanner-window"/>
+              <rect x="133" y="143" width="17" height="22" rx="7" fill="#65a7ff" class="scanner-trigger"/>
+            </g>
+
+            <path class="scanner-beam" d="M224 89L378 121L378 170L224 110Z" fill="#ff4552" opacity="0"/>
+            <rect class="laser-line" x="382" y="132" width="132" height="4" rx="2" fill="#ff3444" opacity="0"/>
+
+            <g class="scan-check" opacity="0">
+              <circle cx="578" cy="110" r="24" fill="#2fc878"/>
+              <path d="M566 110L575 119L591 101" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+          <div class="scan-visual-status">
+            <span class="scan-status-dot" aria-hidden="true"></span>
+            <span id="scanVisualStatus">Код готов к сканированию</span>
+          </div>
+        </div>
+
         <div id="processState" class="process-state empty-state" aria-live="polite">
           <span class="process-visual" aria-hidden="true"></span>
           <div>

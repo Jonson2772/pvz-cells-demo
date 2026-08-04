@@ -7,6 +7,9 @@ const printerBadge = document.querySelector("#printerBadge");
 const processState = document.querySelector("#processState");
 const labelPreview = document.querySelector("#labelPreview");
 const printerAnimationStatus = document.querySelector("#printerAnimationStatus");
+const scanVisual = document.querySelector("#scanVisual");
+const scanVisualStatus = document.querySelector("#scanVisualStatus");
+const scanOrderCode = document.querySelector("#scanOrderCode");
 const cellCode = document.querySelector("#cellCode");
 const labelOrder = document.querySelector("#labelOrder");
 const historyBody = document.querySelector("#historyBody");
@@ -121,6 +124,18 @@ function showLabel(order, cell) {
   labelPreview.classList.remove("label-idle");
 }
 
+async function playScanAnimation(order) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  scanOrderCode.textContent = order;
+  scanVisual.className = "scan-visual scan-active";
+  scanVisualStatus.textContent = "Сканер считывает штрихкод";
+
+  if (!reducedMotion) await wait(620);
+
+  scanVisual.className = "scan-visual scan-success";
+  scanVisualStatus.textContent = "Код распознан";
+}
+
 async function playPrinterAnimation() {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   labelPreview.className = "printer-visual";
@@ -160,7 +175,7 @@ async function processOrder(rawOrder) {
 
   setFlow(0);
   setProcessState("loading", "Сканирование принято", `Демо-заказ ${order} передан в обработку.`);
-  await wait(320);
+  await playScanAnimation(order);
 
   if (duplicateToggle.checked && isRecentDuplicate(order)) {
     session.duplicate += 1;
@@ -217,8 +232,18 @@ scanForm.addEventListener("submit", (event) => {
 document.querySelectorAll("[data-sample]").forEach((button) => {
   button.addEventListener("click", () => {
     orderInput.value = button.dataset.sample;
+    scanOrderCode.textContent = button.dataset.sample;
+    scanVisual.className = "scan-visual scan-idle";
+    scanVisualStatus.textContent = "Код готов к сканированию";
     orderInput.focus();
   });
+});
+
+orderInput.addEventListener("input", () => {
+  const order = sanitizeOrder(orderInput.value);
+  scanOrderCode.textContent = order || "—";
+  scanVisual.className = "scan-visual scan-idle";
+  scanVisualStatus.textContent = order ? "Код готов к сканированию" : "Введите штрихкод";
 });
 
 printerToggle.addEventListener("change", () => {
@@ -251,6 +276,9 @@ resetButton.addEventListener("click", () => {
   labelOrder.textContent = "Выберите демо-заказ";
   printerAnimationStatus.textContent = "Ожидание печати";
   labelPreview.className = "printer-visual label-idle";
+  scanOrderCode.textContent = "ii********1";
+  scanVisual.className = "scan-visual scan-idle";
+  scanVisualStatus.textContent = "Код готов к сканированию";
   orderInput.focus();
 });
 
