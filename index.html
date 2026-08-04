@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивная демо-версия продукта ПВЗ Ячейки с синтетическими данными.">
+  <title>ПВЗ Ячейки - интерактивное демо</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Перейти к рабочей области</a>
+
+  <header class="app-header">
+    <div class="brand" aria-label="ПВЗ Ячейки">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>
+        <strong>ПВЗ Ячейки</strong>
+        <small>Интерактивное демо</small>
+      </span>
+    </div>
+    <div class="header-status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Демо работает локально</span>
+    </div>
+  </header>
+
+  <main id="workspace" class="workspace">
+    <section class="intro" aria-labelledby="intro-title">
+      <div>
+        <p class="section-label">Рабочее место сотрудника</p>
+        <h1 id="intro-title">Сканируйте заказ.<br>Этикетка напечатается автоматически.</h1>
+      </div>
+      <p class="intro-copy">Демо показывает основной сценарий продукта на синтетических данных. Номер ячейки имитируется так, как если бы его назначил интерфейс системы ПВЗ.</p>
+    </section>
+
+    <section class="metrics" aria-label="Метрики текущей сессии">
+      <article class="metric">
+        <span>Обработано</span>
+        <strong id="processedMetric">0</strong>
+        <small>отправлений</small>
+      </article>
+      <article class="metric">
+        <span>Напечатано</span>
+        <strong id="printedMetric">0</strong>
+        <small>этикеток</small>
+      </article>
+      <article class="metric">
+        <span>Повторы</span>
+        <strong id="duplicateMetric">0</strong>
+        <small>заблокировано</small>
+      </article>
+      <article class="metric">
+        <span>Ошибки</span>
+        <strong id="errorMetric">0</strong>
+        <small>в демо-сессии</small>
+      </article>
+    </section>
+
+    <div class="product-grid">
+      <section class="scanner-panel" aria-labelledby="scanner-title">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">Приёмка</p>
+            <h2 id="scanner-title">Сканирование отправления</h2>
+          </div>
+          <span id="printerBadge" class="state-badge state-ready">Принтер готов</span>
+        </div>
+
+        <form id="scanForm" class="scan-form">
+          <label for="orderInput">Штрихкод демо-заказа</label>
+          <div class="scan-control">
+            <input id="orderInput" name="order" inputmode="text" autocomplete="off" placeholder="Например, DEMO-1042" aria-describedby="scanHint" required>
+            <button id="scanButton" class="primary-button" type="submit">Сканировать</button>
+          </div>
+          <p id="scanHint" class="field-hint">Введите любой код или выберите пример ниже. Реальные номера заказов не используются.</p>
+        </form>
+
+        <div class="sample-orders" aria-label="Примеры демо-заказов">
+          <span>Быстрый пример:</span>
+          <button type="button" data-sample="DEMO-1042">DEMO-1042</button>
+          <button type="button" data-sample="DEMO-2087">DEMO-2087</button>
+          <button type="button" data-sample="DEMO-3155">DEMO-3155</button>
+        </div>
+
+        <div id="processState" class="process-state empty-state" aria-live="polite">
+          <span class="process-visual" aria-hidden="true"></span>
+          <div>
+            <strong>Готово к сканированию</strong>
+            <p>После сканирования здесь появится назначенная ячейка и статус печати.</p>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <label class="toggle-control">
+            <input id="duplicateToggle" type="checkbox" checked>
+            <span class="toggle" aria-hidden="true"></span>
+            <span>
+              <strong>Защита от повторной печати</strong>
+              <small>Одинаковый код блокируется в течение 20 секунд</small>
+            </span>
+          </label>
+
+          <label class="toggle-control">
+            <input id="printerToggle" type="checkbox" checked>
+            <span class="toggle" aria-hidden="true"></span>
+            <span>
+              <strong>Демо-принтер</strong>
+              <small>Выключите, чтобы увидеть обработку ошибки</small>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <aside class="label-panel" aria-labelledby="label-title">
+        <div class="panel-heading compact">
+          <div>
+            <p class="section-label">Предпросмотр</p>
+            <h2 id="label-title">Этикетка ячейки</h2>
+          </div>
+        </div>
+
+        <div id="labelPreview" class="label-preview label-idle">
+          <span class="label-caption">Ячейка</span>
+          <strong id="cellCode">--</strong>
+          <span id="labelOrder">Ожидание сканирования</span>
+        </div>
+
+        <ol class="flow-list" aria-label="Сценарий обработки">
+          <li id="flowScan"><span>1</span><div><strong>Сканирование</strong><small>Сотрудник сканирует отправление</small></div></li>
+          <li id="flowDetect"><span>2</span><div><strong>Распознавание</strong><small>Система видит назначенную ячейку</small></div></li>
+          <li id="flowPrint"><span>3</span><div><strong>Печать</strong><small>Локальный агент отправляет этикетку</small></div></li>
+        </ol>
+      </aside>
+    </div>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="history-heading">
+        <div>
+          <p class="section-label">Журнал сессии</p>
+          <h2 id="history-title">Последние операции</h2>
+        </div>
+        <button id="resetButton" class="text-button" type="button">Очистить демо</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Время</th>
+              <th scope="col">Демо-заказ</th>
+              <th scope="col">Ячейка</th>
+              <th scope="col">Результат</th>
+            </tr>
+          </thead>
+          <tbody id="historyBody">
+            <tr class="table-empty">
+              <td colspan="4">Операций пока нет. Отсканируйте первый демо-заказ.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="case-note" aria-labelledby="case-note-title">
+      <div>
+        <p class="section-label">Результат пилота</p>
+        <h2 id="case-note-title">Меньше ошибок без потери скорости</h2>
+      </div>
+      <dl>
+        <div><dt>Ошибки размещения</dt><dd>16 → 2 в неделю</dd></div>
+        <div><dt>Снижение ошибок</dt><dd>87,5%</dd></div>
+        <div><dt>Приёмка 100 отправлений</dt><dd>около 39 минут</dd></div>
+      </dl>
+      <p>Пилот показал восьмикратное снижение ошибок при практически неизменной скорости приёмки. Демо не подключено к системам маркетплейсов и использует только синтетические данные.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Демонстрационный проект Дениса Проскурякова</p>
+    <a href="https://github.com/Jonson2772/product-manager-portfolio">Открыть продуктовое портфолио</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
