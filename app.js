@@ -133,7 +133,7 @@ async function playPrinterAnimation() {
   }
 
   labelPreview.classList.add("printer-printing");
-  await wait(1320);
+  await wait(760);
   labelPreview.classList.remove("printer-printing");
   labelPreview.classList.add("printer-printed");
   printerAnimationStatus.textContent = "Этикетка готова";

@@ -602,15 +602,15 @@ h2 {
 }
 
 .printer-printing .cartoon-printer {
-  animation: printer-shake 180ms 3 alternate cubic-bezier(0.77, 0, 0.175, 1);
+  animation: printer-shake 110ms 3 alternate cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 .printer-printing .printed-label {
-  animation: label-exit 920ms 240ms cubic-bezier(0.77, 0, 0.175, 1) both;
+  animation: label-exit 520ms 120ms cubic-bezier(0.77, 0, 0.175, 1) both;
 }
 
 .printer-printing .printer-rollers {
-  animation: roller-turn 260ms 4 linear;
+  animation: roller-turn 160ms 4 linear;
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -621,7 +621,7 @@ h2 {
 }
 
 .printer-printing .print-sparkles {
-  animation: sparkle-in 380ms 860ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: sparkle-in 220ms 520ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .printer-printed .printed-label,
