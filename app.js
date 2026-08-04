@@ -40,7 +40,7 @@ function wait(duration) {
 }
 
 function sanitizeOrder(value) {
-  return value.trim().toUpperCase().replace(/[^A-ZА-Я0-9-]/g, "").slice(0, 32);
+  return value.trim().replace(/[^A-Za-zА-Яа-яЁё0-9*-]/g, "").slice(0, 32);
 }
 
 function selectCell(order) {
