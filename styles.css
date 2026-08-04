@@ -554,42 +554,113 @@ h2 {
   line-height: 1.35;
 }
 
-.label-preview {
-  min-height: 218px;
+.printer-visual {
+  margin-bottom: 26px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1116;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.printer-media {
+  position: relative;
+  aspect-ratio: 480 / 430;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(101, 167, 255, 0.2), transparent 38%),
+    linear-gradient(180deg, #eef5ff 0%, #dce9f7 100%);
+}
+
+.printer-illustration {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.printed-label {
+  opacity: 0;
+  transform: translate3d(0, -82px, 0) scaleY(0.28);
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+
+.label-svg-caption {
+  fill: #64717d;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.label-svg-code {
+  fill: #111820;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.printer-printing .cartoon-printer {
+  animation: printer-shake 180ms 3 alternate cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.printer-printing .printed-label {
+  animation: label-exit 920ms 240ms cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+.printer-printing .printer-rollers {
+  animation: roller-turn 260ms 4 linear;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.printer-printing .printer-button,
+.printer-printed .printer-button {
+  filter: drop-shadow(0 0 10px rgba(53, 212, 127, 0.72));
+}
+
+.printer-printing .print-sparkles {
+  animation: sparkle-in 380ms 860ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.printer-printed .printed-label,
+.printer-printed .print-sparkles {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scaleY(1);
+}
+
+.printer-readout {
+  min-height: 66px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 26px;
-  padding: 26px;
-  border-radius: 12px;
-  background: #fff;
-  color: var(--ink);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
-  transition: transform 180ms ease, opacity 180ms ease;
+  padding: 14px 18px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-.label-preview strong {
-  display: block;
-  margin: 5px 0 14px;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: clamp(54px, 7vw, 82px);
-  line-height: 1;
-  letter-spacing: -0.07em;
+.printer-readout span {
+  color: #9eabb8;
+  font-size: 11px;
 }
 
-.label-caption,
-#labelOrder {
-  color: var(--muted);
+.printer-readout strong {
+  margin-top: 4px;
   font-size: 12px;
 }
 
 .label-idle {
-  opacity: 0.58;
+  opacity: 0.72;
 }
 
-.label-printing {
-  transform: translateY(-3px) rotate(-0.4deg);
+.printer-error .printer-readout span {
+  color: #ffaaa2;
+}
+
+.printer-error .printer-button {
+  filter: grayscale(1);
+  opacity: 0.5;
 }
 
 .flow-list {
@@ -775,6 +846,40 @@ footer a {
 @keyframes pulse {
   from { opacity: 0.36; }
   to { opacity: 1; }
+}
+
+@keyframes label-exit {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -82px, 0) scaleY(0.28);
+  }
+  24% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+}
+
+@keyframes printer-shake {
+  from { transform: translate3d(-2px, 0, 0) rotate(-0.25deg); }
+  to { transform: translate3d(2px, 0, 0) rotate(0.25deg); }
+}
+
+@keyframes roller-turn {
+  to { transform: rotate(180deg); }
+}
+
+@keyframes sparkle-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 @media (max-width: 900px) {

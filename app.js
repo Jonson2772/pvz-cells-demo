@@ -6,6 +6,7 @@ const printerToggle = document.querySelector("#printerToggle");
 const printerBadge = document.querySelector("#printerBadge");
 const processState = document.querySelector("#processState");
 const labelPreview = document.querySelector("#labelPreview");
+const printerAnimationStatus = document.querySelector("#printerAnimationStatus");
 const cellCode = document.querySelector("#cellCode");
 const labelOrder = document.querySelector("#labelOrder");
 const historyBody = document.querySelector("#historyBody");
@@ -118,8 +119,24 @@ function showLabel(order, cell) {
   cellCode.textContent = cell;
   labelOrder.textContent = `Демо-заказ ${order}`;
   labelPreview.classList.remove("label-idle");
-  labelPreview.classList.add("label-printing");
-  window.setTimeout(() => labelPreview.classList.remove("label-printing"), 260);
+}
+
+async function playPrinterAnimation() {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  labelPreview.className = "printer-visual";
+  printerAnimationStatus.textContent = "Печать этикетки";
+
+  if (reducedMotion) {
+    labelPreview.classList.add("printer-printed");
+    printerAnimationStatus.textContent = "Этикетка готова";
+    return;
+  }
+
+  labelPreview.classList.add("printer-printing");
+  await wait(1320);
+  labelPreview.classList.remove("printer-printing");
+  labelPreview.classList.add("printer-printed");
+  printerAnimationStatus.textContent = "Этикетка готова";
 }
 
 function isRecentDuplicate(order) {
@@ -166,15 +183,20 @@ async function processOrder(rawOrder) {
     updateMetrics();
     setFlow(2, true);
     setProcessState("error", "Печать не выполнена", "Демо-принтер выключен. Включите его и повторите сканирование.");
+    labelPreview.className = "printer-visual printer-error";
+    printerAnimationStatus.textContent = "Принтер выключен";
     addHistory(order, cell, { type: "error", label: "Ошибка принтера" });
     finishProcessing();
     return;
   }
 
+  setFlow(2);
+  setProcessState("loading", `Печать этикетки ${cell}`, "Принтер формирует и выдаёт этикетку ячейки.");
+  await playPrinterAnimation();
+
   session.recentOrders.set(order, Date.now());
   session.printed += 1;
   updateMetrics();
-  setFlow(2);
   setProcessState("success", `Этикетка ${cell} напечатана`, "Сотрудник может наклеить её и разместить отправление в указанной ячейке.");
   addHistory(order, cell, { type: "success", label: "Напечатано" });
   finishProcessing();
@@ -203,6 +225,13 @@ printerToggle.addEventListener("change", () => {
   const ready = printerToggle.checked;
   printerBadge.textContent = ready ? "Принтер готов" : "Принтер выключен";
   printerBadge.className = `state-badge ${ready ? "state-ready" : "state-offline"}`;
+  if (!ready) {
+    labelPreview.className = "printer-visual printer-error";
+    printerAnimationStatus.textContent = "Принтер выключен";
+  } else if (session.printed === 0) {
+    labelPreview.className = "printer-visual label-idle";
+    printerAnimationStatus.textContent = "Ожидание печати";
+  }
 });
 
 resetButton.addEventListener("click", () => {
@@ -219,8 +248,9 @@ resetButton.addEventListener("click", () => {
   setFlow(-1);
   setProcessState("empty", "Готово к сканированию", "После сканирования здесь появится назначенная ячейка и статус печати.");
   cellCode.textContent = "--";
-  labelOrder.textContent = "Ожидание сканирования";
-  labelPreview.className = "label-preview label-idle";
+  labelOrder.textContent = "Выберите демо-заказ";
+  printerAnimationStatus.textContent = "Ожидание печати";
+  labelPreview.className = "printer-visual label-idle";
   orderInput.focus();
 });
 

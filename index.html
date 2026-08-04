@@ -121,15 +121,74 @@
       <aside class="label-panel" aria-labelledby="label-title">
         <div class="panel-heading compact">
           <div>
-            <p class="section-label">Предпросмотр</p>
-            <h2 id="label-title">Этикетка ячейки</h2>
+            <p class="section-label">Реальный сценарий</p>
+            <h2 id="label-title">Печать этикетки</h2>
           </div>
         </div>
 
-        <div id="labelPreview" class="label-preview label-idle">
-          <span class="label-caption">Ячейка</span>
-          <strong id="cellCode">--</strong>
-          <span id="labelOrder">Ожидание сканирования</span>
+        <div id="labelPreview" class="printer-visual label-idle" aria-live="polite">
+          <div class="printer-media">
+            <svg class="printer-illustration" viewBox="0 0 480 430" role="img" aria-label="Мультяшная анимация печати этикетки">
+              <defs>
+                <linearGradient id="printer-lid" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3f4a58"/>
+                  <stop offset="1" stop-color="#252d38"/>
+                </linearGradient>
+                <linearGradient id="printer-front" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#202833"/>
+                  <stop offset="1" stop-color="#111720"/>
+                </linearGradient>
+                <filter id="printer-shadow" x="-30%" y="-30%" width="160%" height="180%">
+                  <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#07111f" flood-opacity="0.32"/>
+                </filter>
+              </defs>
+
+              <ellipse cx="240" cy="377" rx="170" ry="25" fill="#102038" opacity="0.16"/>
+
+              <g class="cartoon-printer" filter="url(#printer-shadow)">
+                <rect x="74" y="126" width="332" height="220" rx="30" fill="url(#printer-front)"/>
+                <path d="M92 150L126 65Q132 49 151 49H329Q348 49 354 65L388 150Z" fill="url(#printer-lid)"/>
+                <path d="M107 141L136 76Q141 65 154 65H326Q339 65 344 76L373 141Z" fill="#313b48"/>
+                <path d="M119 137H361" stroke="#536171" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+                <g class="printer-button">
+                  <rect x="211" y="90" width="58" height="38" rx="12" fill="#102018" stroke="#78e6aa" stroke-width="3"/>
+                  <rect x="220" y="98" width="40" height="22" rx="7" fill="#35d47f"/>
+                  <path d="M240 102V110M232 107A10 10 0 1 0 248 107" fill="none" stroke="#eafff3" stroke-width="3" stroke-linecap="round"/>
+                </g>
+
+                <rect x="112" y="196" width="256" height="57" rx="16" fill="#080d13"/>
+                <rect x="129" y="210" width="222" height="22" rx="9" fill="#030609"/>
+
+                <g class="printed-label">
+                  <rect x="171" y="216" width="138" height="102" rx="10" fill="#fffdf5" stroke="#d9e2da" stroke-width="3"/>
+                  <path d="M184 236H296" stroke="#d7ded9" stroke-width="2" stroke-dasharray="4 5"/>
+                  <text x="240" y="257" text-anchor="middle" class="label-svg-caption">Ячейка</text>
+                  <text id="cellCode" x="240" y="293" text-anchor="middle" class="label-svg-code">--</text>
+                </g>
+
+                <g class="printer-rollers">
+                  <circle cx="151" cy="221" r="8" fill="#8693a0"/>
+                  <circle cx="178" cy="221" r="8" fill="#8693a0"/>
+                  <circle cx="302" cy="221" r="8" fill="#8693a0"/>
+                  <circle cx="329" cy="221" r="8" fill="#8693a0"/>
+                  <path d="M151 217V225M174 221H182M302 217V225M325 221H333" stroke="#26323e" stroke-width="2" stroke-linecap="round"/>
+                </g>
+
+                <rect x="105" y="293" width="270" height="25" rx="12" fill="#0c121a" opacity="0.5"/>
+              </g>
+
+              <g class="print-sparkles" aria-hidden="true">
+                <path d="M393 155V171M385 163H401" stroke="#35d47f" stroke-width="4" stroke-linecap="round"/>
+                <path d="M78 194V206M72 200H84" stroke="#65a7ff" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="397" cy="190" r="4" fill="#65a7ff"/>
+              </g>
+            </svg>
+          </div>
+          <div class="printer-readout">
+            <span id="printerAnimationStatus">Ожидание печати</span>
+            <strong id="labelOrder">Выберите демо-заказ</strong>
+          </div>
         </div>
 
         <ol class="flow-list" aria-label="Сценарий обработки">
