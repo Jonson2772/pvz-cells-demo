@@ -66,7 +66,7 @@ assets/     скриншот интерфейса для README
 
 ## Автор
 
-Денис Проскуряков - Product Manager.
+Денис Проскуряков - Product Manager / основатель продукта «ПВЗ Ячейки».
 
 - [Продуктовое портфолио](https://github.com/Jonson2772/product-manager-portfolio)
 - [GitHub-профиль](https://github.com/Jonson2772)
